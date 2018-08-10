@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'/>
+		<title>页面列表分页测试实例</title>
+		<style>
+
+			textarea {
+				border:2px solid #ccc;
+				padding: 10px;
+				vertical-align: top;
+				width: 25%;
+			}
+
+		</style>
+		<script src='/libs/jquery/1.10.1/jquery.min.js'></script>
+		<script src='/jquery.dataPagination.js'></script>
+		<script>
+			$(function(){
+				//$('.normal').autosize();
+				//$('.animated').autosize();
+				/*
+				var opt = {
+					url : "data/list1.json",
+					data:"title=新闻消息来源&chinel=news",
+					pageSize:10,
+					timeout: 10000,
+					currentPage: 1,
+					autoLoad:true,
+					columns : [{ title: '新闻消息来源', width: 150, dataIndex: 'c', renderer:function(value,obj){
+							return value+':'+obj.d;
+					}}],
+					pagingBar:true,
+					pagingBarId: "paginationholder",
+					callback: null
+				};
+				*/
+
+				var opt = {
+					url : "/data/list1.json",
+					data:"currentPage=1&channelType=news",
+					pageSize:10,
+					timeout: 10000,
+					currentPage: 1,
+					channelType:'news',
+					pagingBarId: "paginationholder",
+					callback: function(result){
+						var pageWrap = $('#'+opt.pagingBarId);
+						pageWrap.html('');
+						var db=[];
+						
+						for(var i=0;i<opt.pageSize;i++){
+							db.push('<img style="max-width:50px;" src='+result.dataList[i].relevantPhoto+'>');
+							db.push('<div>'+result.dataList[i].title+'</div>');
+							db.push('<div>'+result.dataList[i].showTime+'</div>');
+						}
+						pageWrap.append(db.join(''));
+					}
+				};
+				$("div.normal").pagination(opt);
+			});
+		</script>
+	</head>
+	<body>
+		<div>1、列表分页</div>
+		<div class='normal'>没有数据源.</div>
+		<div id='paginationholder'>页码.</div>
+	</body>
+</html>
